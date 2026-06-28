@@ -1,0 +1,108 @@
+---
+import { getContent } from '../../i18n/content';
+import { getLangFromUrl } from '../../i18n/config';
+
+const lang = getLangFromUrl(Astro.url);
+const c = getContent(lang);
+---
+
+<section class="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <p class="eyebrow" data-reveal>{c.hero.eyebrow}</p>
+    <h1 class="hero__title" data-reveal>{c.hero.title}</h1>
+    <p class="hero__subtitle" data-reveal>{c.hero.subtitle}</p>
+
+    <div class="hero__cta" data-reveal>
+      <a class="btn" href="#work">{c.hero.ctaWork}</a>
+      <a class="btn btn--ghost" href="#contact">{c.hero.ctaContact}</a>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#work" aria-label={c.hero.scroll}>
+    <span>{c.hero.scroll}</span>
+    <span class="hero__scroll-line" aria-hidden="true"></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: 8rem 4rem;
+    overflow: hidden;
+  }
+  .hero__glow {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 70vw;
+    height: 70vw;
+    max-width: 900px;
+    max-height: 900px;
+    background: radial-gradient(circle, rgba(205, 163, 92, 0.18), transparent 62%);
+    filter: blur(20px);
+    pointer-events: none;
+    animation: float 14s ease-in-out infinite alternate;
+  }
+  @keyframes float {
+    to {
+      transform: translate(-4%, 5%) scale(1.08);
+    }
+  }
+  .hero__inner {
+    position: relative;
+    max-width: 60rem;
+  }
+  .hero__title {
+    font-size: clamp(2.75rem, 7.5vw, 6rem);
+    margin-top: 1.5rem;
+    line-height: 1.0;
+  }
+  .hero__subtitle {
+    margin-top: 1.75rem;
+    max-width: 48ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    color: var(--text-muted);
+  }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2.5rem;
+  }
+  .hero__title :global(em) {
+    font-style: italic;
+    color: var(--accent-soft);
+  }
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .hero__scroll-line {
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(var(--accent), transparent);
+    animation: drop 2s ease-in-out infinite;
+    transform-origin: top;
+  }
+  @keyframes drop {
+    0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+  @media (max-width: 640px) {
+    .hero__scroll { display: none; }
+  }
+</style>

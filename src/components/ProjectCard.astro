@@ -1,0 +1,258 @@
+---
+import type { Project } from '../data/projects';
+import type { Lang } from '../i18n/config';
+import { getContent } from '../i18n/content';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  index: number;
+}
+const { project, lang, index } = Astro.props;
+const c = getContent(lang);
+const num = String(index + 1).padStart(2, '0');
+const host = project.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+---
+
+<article
+  class="card"
+  data-reveal
+  style={`--card-accent:${project.accent}`}
+>
+  <a
+    class="card__media"
+    href={project.url}
+    target="_blank"
+    rel="noopener"
+    aria-label={`${c.work.visit}: ${project.name}`}
+  >
+    {project.image ? (
+      <img src={project.image} alt={project.name} loading="lazy" />
+    ) : (
+      <div class="card__placeholder" aria-hidden="true">
+        <span class="card__ph-name">{project.name}</span>
+        <span class="card__ph-host">{host}</span>
+      </div>
+    )}
+    <span class="card__visit">{c.work.visit} ↗</span>
+  </a>
+
+  <div class="card__body">
+    <div class="card__top">
+      <span class="card__num">{num}</span>
+      <span class="card__cat">{project.category[lang]}</span>
+      <span class="card__year">{project.year}</span>
+    </div>
+
+    <h3 class="card__name">{project.name}</h3>
+    <p class="card__tagline">{project.tagline[lang]}</p>
+    <p class="card__desc">{project.description[lang]}</p>
+
+    <ul class="card__tags">
+      {project.tags.map((t) => <li>{t}</li>)}
+    </ul>
+
+    <div class="card__foot">
+      <span class="card__role">
+        <span class="card__role-label">{c.work.role}</span>
+        {project.role[lang]}
+      </span>
+      <a class="card__link" href={project.url} target="_blank" rel="noopener">
+        {c.work.visit}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--surface), var(--bg-soft));
+    transition: border-color 0.4s ease, transform 0.5s var(--ease);
+  }
+  .card:hover {
+    border-color: color-mix(in srgb, var(--card-accent) 50%, transparent);
+  }
+  .card:nth-child(even) .card__media {
+    order: 2;
+  }
+
+  .card__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .card__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease);
+  }
+  .card__media:hover img {
+    transform: scale(1.04);
+  }
+  .card__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    padding: 1.5rem;
+    background:
+      radial-gradient(120% 120% at 20% 0%, color-mix(in srgb, var(--card-accent) 38%, transparent), transparent 55%),
+      linear-gradient(135deg, var(--surface-2), #0a0a0d);
+  }
+  .card__placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(120% 120% at 50% 0%, black, transparent 75%);
+    opacity: 0.5;
+  }
+  .card__ph-name {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .card__ph-host {
+    position: relative;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+  .card__visit {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(8, 8, 10, 0.6);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.3s ease, transform 0.3s var(--ease);
+  }
+  .card__media:hover .card__visit {
+    opacity: 1;
+    transform: none;
+  }
+
+  .card__top {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+  .card__num {
+    color: var(--card-accent);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .card__cat {
+    color: var(--text-muted);
+  }
+  .card__year {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+  }
+  .card__name {
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    margin-top: 0.9rem;
+  }
+  .card__tagline {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--accent-soft);
+  }
+  .card__desc {
+    margin-top: 1rem;
+    color: var(--text-muted);
+    max-width: 52ch;
+  }
+  .card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    list-style: none;
+  }
+  .card__tags li {
+    font-size: 0.78rem;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .card__foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .card__role {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .card__role-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 600;
+    color: var(--card-accent);
+    white-space: nowrap;
+  }
+  .card__link span {
+    transition: transform 0.3s var(--ease);
+  }
+  .card__link:hover span {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 820px) {
+    .card {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .card:nth-child(even) .card__media {
+      order: 0;
+    }
+  }
+</style>

@@ -1,0 +1,74 @@
+---
+import { getContent } from '../../i18n/content';
+import { getLangFromUrl } from '../../i18n/config';
+
+const lang = getLangFromUrl(Astro.url);
+const c = getContent(lang);
+---
+
+<section id="about" class="section about">
+  <div class="container about__grid">
+    <div class="about__intro" data-reveal>
+      <p class="eyebrow">{c.about.eyebrow}</p>
+      <h2 class="section-title">{c.about.title}</h2>
+    </div>
+
+    <div class="about__body" data-reveal>
+      {c.about.body.map((p) => <p>{p}</p>)}
+
+      <dl class="about__stats">
+        {c.about.stats.map((s) => (
+          <div class="stat">
+            <dt class="stat__value">{s.value}</dt>
+            <dd class="stat__label">{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .about__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .about__body p {
+    color: var(--text-muted);
+    font-size: clamp(1.02rem, 1.4vw, 1.18rem);
+  }
+  .about__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat__value {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--accent-soft);
+    line-height: 1;
+  }
+  .stat__label {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  @media (max-width: 760px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+    .about__stats {
+      gap: 1rem;
+    }
+  }
+</style>

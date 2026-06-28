@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "Dani Zetta Proyects",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "dist": true,
+      ".astro": true
+    },
+    "emmet.includeLanguages": {
+      "astro": "html"
+    }
+  },
+  "extensions": {
+    "recommendations": ["astro-build.astro-vscode"]
+  }
+}
