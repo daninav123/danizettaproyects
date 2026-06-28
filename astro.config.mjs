@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   // Dominio definitivo (usado en SEO, canonical y sitemap).
-  site: 'https://danizettaproyects.com',
+  site: 'https://danizetta.studio',
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],

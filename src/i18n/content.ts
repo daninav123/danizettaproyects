@@ -62,7 +62,7 @@ export const content = {
       subtitle:
         'Cuéntame tu proyecto y te respondo con un primer enfoque. Sin compromiso.',
       cta: 'Escríbeme',
-      email: 'info@danizettaproyects.com',
+      email: 'info@danizetta.studio',
     },
     footer: {
       tagline: 'Diseño, desarrollo y visuales.',
@@ -127,7 +127,7 @@ export const content = {
       subtitle:
         'Tell me about your project and I’ll get back with a first approach. No strings attached.',
       cta: 'Get in touch',
-      email: 'info@danizettaproyects.com',
+      email: 'info@danizetta.studio',
     },
     footer: {
       tagline: 'Design, development & visuals.',

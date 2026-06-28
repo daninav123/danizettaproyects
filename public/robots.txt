@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://danizettaproyects.com/sitemap-index.xml
+Sitemap: https://danizetta.studio/sitemap-index.xml
