@@ -14,5 +14,13 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Añade enlaces hreflang (es/en) en el sitemap para SEO internacional.
+      i18n: {
+        defaultLocale: 'es',
+        locales: { es: 'es-ES', en: 'en-US' },
+      },
+    }),
+  ],
 });

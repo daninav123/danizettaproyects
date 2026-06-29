@@ -31,7 +31,7 @@ const projects = getProjects();
             aria-label={`${c.work.visit}: ${p.name}`}
           >
             <span class="row__n">{String(i + 1).padStart(2, '0')}</span>
-            <span class="row__name">{p.name}</span>
+            <h3 class="row__name">{p.name}</h3>
             <span class="row__cat">{p.category[lang]}</span>
             <span class="row__year">{p.year}</span>
             <span class="row__go" aria-hidden="true">↗</span>
