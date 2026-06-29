@@ -125,6 +125,32 @@ export const projects: Project[] = [
     tags: ['Web', 'SEO', 'Reservas / Booking', 'i18n'],
     image: '/images/clara-navarro.jpg',
   },
+  {
+    slug: 'danizetta-dj',
+    name: 'Dani Zetta · DJ',
+    url: 'https://danizetta.com',
+    year: '2026',
+    accent: '#3aa6d8',
+    featured: true,
+    category: {
+      es: 'DJ · Bodas & Clubs',
+      en: 'DJ · Weddings & Clubs',
+    },
+    role: {
+      es: 'Identidad y desarrollo web',
+      en: 'Identity & web development',
+    },
+    tagline: {
+      es: 'Tu día, tu banda sonora.',
+      en: 'Your day, your soundtrack.',
+    },
+    description: {
+      es: 'Mi faceta como DJ: bodas en toda España y sesiones en clubs nacionales e internacionales. Web bilingüe con dos líneas —bodas y clubs—, música a medida y energía de cabina.',
+      en: 'My work as a DJ: weddings across Spain and club sets nationally and internationally. Bilingual site split into two lines —weddings and clubs—, tailored music and dancefloor energy.',
+    },
+    tags: ['DJ', 'Bodas / Weddings', 'Clubs', 'Web', 'SEO'],
+    image: '/images/danizetta-dj.jpg',
+  },
 ];
 
 export function getProjects(): Project[] {

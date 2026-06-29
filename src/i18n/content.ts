@@ -51,7 +51,7 @@ export const content = {
         'Desde plataformas SaaS hasta webs de marca y visuales para directo, mi objetivo es siempre el mismo: que el resultado se sienta inevitable, premium y honesto con el negocio que representa.',
       ],
       stats: [
-        { value: '4+', label: 'Proyectos en marcha' },
+        { value: '5+', label: 'Proyectos en marcha' },
         { value: '3', label: 'Idiomas de trabajo' },
         { value: '100%', label: 'Diseño a medida' },
       ],
@@ -116,7 +116,7 @@ export const content = {
         'From SaaS platforms to brand websites and live visuals, the goal is always the same: a result that feels inevitable, premium and true to the business it represents.',
       ],
       stats: [
-        { value: '4+', label: 'Live projects' },
+        { value: '5+', label: 'Live projects' },
         { value: '3', label: 'Working languages' },
         { value: '100%', label: 'Bespoke design' },
       ],
