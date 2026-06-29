@@ -1,0 +1,179 @@
+---
+import type { Project } from '../data/projects';
+import type { Lang } from '../i18n/config';
+import { getContent } from '../i18n/content';
+import { localizedPath, projectPath } from '../i18n/config';
+import { getProjects } from '../data/projects';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+}
+const { project, lang } = Astro.props;
+const c = getContent(lang);
+const cs = c.caseStudy;
+
+const projects = getProjects();
+const idx = projects.findIndex((p) => p.slug === project.slug);
+const next = projects[(idx + 1) % projects.length];
+---
+
+<article class="cs">
+  <div class="container">
+    <a class="cs__back" href={localizedPath('/#work', lang)}>← {cs.back}</a>
+
+    <header class="cs__head">
+      <span class="label label--accent">{project.category[lang]}</span>
+      <h1 class="cs__title">{project.name}</h1>
+      <p class="cs__tagline">{project.tagline[lang]}</p>
+    </header>
+
+    <div class="cs__metabar">
+      <div class="cs__meta"><span class="cs__k">{cs.role}</span>{project.role[lang]}</div>
+      <div class="cs__meta"><span class="cs__k">{cs.year}</span>{project.year}</div>
+      <a class="btn btn--accent cs__visit" href={project.url} target="_blank" rel="noopener">{cs.visit} ↗</a>
+    </div>
+  </div>
+
+  {project.image && (
+    <div class="container">
+      <div class="cs__hero" style={`--a:${project.accent}`}><img src={project.image} alt={project.name} /></div>
+    </div>
+  )}
+
+  <div class="container cs__body">
+    <section class="cs__block">
+      <h2 class="cs__h"><span class="idx">01</span> {cs.brief}</h2>
+      <p>{project.brief[lang]}</p>
+    </section>
+    <section class="cs__block">
+      <h2 class="cs__h"><span class="idx">02</span> {cs.approach}</h2>
+      <p>{project.approach[lang]}</p>
+    </section>
+  </div>
+
+  <div class="container cs__incl">
+    <h2 class="cs__h"><span class="idx">03</span> {cs.highlights}</h2>
+    <ul class="cs__list">
+      {project.highlights[lang].map((h) => <li>{h}</li>)}
+    </ul>
+    <div class="cs__tags">{project.tags.map((t) => <span>{t}</span>)}</div>
+  </div>
+
+  <a class="cs__next container" href={projectPath(next.slug, lang)}>
+    <span class="cs__k">{cs.next}</span>
+    <span class="cs__nextname">{next.name} →</span>
+  </a>
+</article>
+
+<style>
+  .cs { padding-top: calc(58px + clamp(1.5rem, 4vw, 3rem)); }
+  .cs__back {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    transition: color var(--t);
+  }
+  .cs__back:hover { color: var(--accent); }
+  .cs__head { margin: clamp(1.5rem, 4vw, 2.5rem) 0 1.5rem; }
+  .cs__title {
+    font-size: clamp(2.6rem, 10vw, 7rem);
+    line-height: 0.9;
+    margin-top: 0.8rem;
+  }
+  .cs__tagline {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    color: var(--accent);
+  }
+  .cs__metabar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem 2.5rem;
+    flex-wrap: wrap;
+    padding: 1.2rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .cs__meta { font-family: var(--font-mono); font-size: 0.9rem; }
+  .cs__k {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    margin-bottom: 0.25rem;
+  }
+  .cs__visit { margin-left: auto; }
+  .cs__hero {
+    margin: clamp(2rem, 5vw, 3.5rem) 0;
+    border: 1px solid var(--a, var(--line-strong));
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .cs__hero img { width: 100%; height: 100%; object-fit: cover; }
+  .cs__body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding-block: clamp(1rem, 3vw, 2rem);
+  }
+  .cs__h {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6ch;
+  }
+  .cs__h .idx { font-family: var(--font-mono); font-size: 0.6em; }
+  .cs__block p { color: var(--muted); font-size: 1.02rem; }
+  .cs__incl { padding-block: clamp(2rem, 5vw, 3.5rem); }
+  .cs__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--line);
+    margin-top: 0.5rem;
+  }
+  .cs__list li {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .cs__list li::before { content: '→ '; color: var(--accent); }
+  .cs__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .cs__tags span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+    padding: 0.35rem 0.7rem;
+    color: var(--muted);
+  }
+  .cs__next {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+    border-top: 1px solid var(--line-strong);
+    margin-top: 2rem;
+  }
+  .cs__nextname {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 4rem);
+    line-height: 1;
+    transition: color var(--t);
+  }
+  .cs__next:hover .cs__nextname { color: var(--accent); }
+
+  @media (max-width: 720px) {
+    .cs__body { grid-template-columns: 1fr; }
+    .cs__list { grid-template-columns: 1fr; }
+    .cs__visit { margin-left: 0; }
+  }
+</style>

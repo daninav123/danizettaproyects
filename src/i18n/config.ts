@@ -21,3 +21,14 @@ export function localizedPath(path: string, lang: Lang): string {
   if (lang === defaultLang) return clean;
   return `/${lang}${clean === '/' ? '' : clean}`;
 }
+
+/** Segmento de la sección de proyectos por idioma. */
+export const workSegment: Record<Lang, string> = {
+  es: 'proyectos',
+  en: 'work',
+};
+
+/** Ruta a la página de caso de estudio de un proyecto. */
+export function projectPath(slug: string, lang: Lang): string {
+  return localizedPath(`/${workSegment[lang]}/${slug}`, lang);
+}

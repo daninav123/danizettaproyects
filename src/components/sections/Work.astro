@@ -1,7 +1,7 @@
 ---
 import { getProjects } from '../../data/projects';
 import { getContent } from '../../i18n/content';
-import { getLangFromUrl } from '../../i18n/config';
+import { getLangFromUrl, projectPath } from '../../i18n/config';
 
 const lang = getLangFromUrl(Astro.url);
 const c = getContent(lang);
@@ -23,18 +23,16 @@ const projects = getProjects();
         <li class="row">
           <a
             class="row__link"
-            href={p.url}
-            target="_blank"
-            rel="noopener"
+            href={projectPath(p.slug, lang)}
             data-img={p.image}
             data-accent={p.accent}
-            aria-label={`${c.work.visit}: ${p.name}`}
+            aria-label={`${p.name} — ${c.work.caseStudy}`}
           >
             <span class="row__n">{String(i + 1).padStart(2, '0')}</span>
             <h3 class="row__name">{p.name}</h3>
             <span class="row__cat">{p.category[lang]}</span>
             <span class="row__year">{p.year}</span>
-            <span class="row__go" aria-hidden="true">↗</span>
+            <span class="row__go" aria-hidden="true">→</span>
           </a>
           <div class="row__m">
             {p.image && <img src={p.image} alt={p.name} loading="lazy" />}

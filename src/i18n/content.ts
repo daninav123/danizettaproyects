@@ -15,6 +15,7 @@ export const content = {
     nav: {
       work: 'Proyectos',
       visuals: 'Visuales',
+      services: 'Servicios',
       about: 'Estudio',
       contact: 'Contacto',
     },
@@ -35,6 +36,20 @@ export const content = {
       visit: 'Visitar sitio',
       role: 'Rol',
       year: 'Año',
+      caseStudy: 'Ver caso',
+    },
+    caseStudy: {
+      back: 'Todos los proyectos',
+      visit: 'Ver web en vivo',
+      brief: 'El reto',
+      approach: 'La solución',
+      highlights: 'Lo que incluye',
+      info: 'Ficha',
+      role: 'Rol',
+      year: 'Año',
+      category: 'Categoría',
+      stack: 'Stack',
+      next: 'Siguiente proyecto',
     },
     visuals: {
       eyebrow: 'Motion & Live',
@@ -42,6 +57,34 @@ export const content = {
       subtitle:
         'Visuales en directo, motion graphics y contenido audiovisual para eventos, escenarios y marcas. Una selección en constante evolución.',
       note: 'Piezas propias: branding en movimiento, intros de boda, fondos y experimentos con IA.',
+    },
+    services: {
+      eyebrow: 'Servicios',
+      title: 'Qué hago',
+      subtitle:
+        'Diseño y desarrollo de producto, identidad y audiovisual. Trabajo desde Valencia para clientes de toda España y fuera.',
+      items: [
+        {
+          title: 'Diseño y desarrollo web',
+          desc: 'Webs de marca, landing pages y plataformas SaaS a medida en Valencia: diseño, desarrollo, rendimiento y SEO de principio a fin.',
+          tags: ['Web a medida', 'SaaS', 'E-commerce', 'SEO'],
+        },
+        {
+          title: 'Visuales & Motion',
+          desc: 'Visuales en directo (VJ), motion graphics e intros para bodas, eventos, escenarios y marcas. Contenido audiovisual que se mueve.',
+          tags: ['VJ / Directo', 'Motion', 'Intros de boda', 'Mapping'],
+        },
+        {
+          title: 'DJ · Bodas & Clubs',
+          desc: 'DJ profesional para bodas en toda España y sesiones en clubs nacionales e internacionales. Música a medida y energía real en la pista.',
+          tags: ['Bodas', 'Clubs', 'Eventos privados'],
+        },
+        {
+          title: 'Identidad & Branding',
+          desc: 'Identidad visual y dirección de arte para que tu marca se vea tan bien como funciona, coherente en web, audiovisual y redes.',
+          tags: ['Branding', 'Dirección de arte', 'Logo & sistema'],
+        },
+      ],
     },
     about: {
       eyebrow: 'El estudio',
@@ -80,6 +123,7 @@ export const content = {
     nav: {
       work: 'Work',
       visuals: 'Visuals',
+      services: 'Services',
       about: 'Studio',
       contact: 'Contact',
     },
@@ -100,6 +144,20 @@ export const content = {
       visit: 'Visit site',
       role: 'Role',
       year: 'Year',
+      caseStudy: 'View case',
+    },
+    caseStudy: {
+      back: 'All projects',
+      visit: 'View live site',
+      brief: 'The challenge',
+      approach: 'The solution',
+      highlights: 'What it includes',
+      info: 'Details',
+      role: 'Role',
+      year: 'Year',
+      category: 'Category',
+      stack: 'Stack',
+      next: 'Next project',
     },
     visuals: {
       eyebrow: 'Motion & Live',
@@ -107,6 +165,34 @@ export const content = {
       subtitle:
         'Live visuals, motion graphics and audiovisual content for events, stages and brands. An ever-evolving selection.',
       note: 'My own pieces: motion branding, wedding intros, backgrounds and AI experiments.',
+    },
+    services: {
+      eyebrow: 'Services',
+      title: 'What I do',
+      subtitle:
+        'Product design and development, identity and audiovisual. Based in Valencia, working with clients across Spain and beyond.',
+      items: [
+        {
+          title: 'Web design & development',
+          desc: 'Brand websites, landing pages and custom SaaS platforms: design, development, performance and SEO end to end.',
+          tags: ['Custom web', 'SaaS', 'E-commerce', 'SEO'],
+        },
+        {
+          title: 'Visuals & Motion',
+          desc: 'Live visuals (VJ), motion graphics and intros for weddings, events, stages and brands. Audiovisual content that moves.',
+          tags: ['VJ / Live', 'Motion', 'Wedding intros', 'Mapping'],
+        },
+        {
+          title: 'DJ · Weddings & Clubs',
+          desc: 'Professional DJ for weddings across Spain and club sets nationally and internationally. Tailored music and real dancefloor energy.',
+          tags: ['Weddings', 'Clubs', 'Private events'],
+        },
+        {
+          title: 'Identity & Branding',
+          desc: 'Visual identity and art direction so your brand looks as good as it works —consistent across web, audiovisual and social.',
+          tags: ['Branding', 'Art direction', 'Logo & system'],
+        },
+      ],
     },
     about: {
       eyebrow: 'The studio',

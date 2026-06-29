@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CaseStudy from '../../../components/CaseStudy.astro';
+import { getProjects } from '../../../data/projects';
+import { projectPath } from '../../../i18n/config';
+
+export function getStaticPaths() {
+  return getProjects().map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const lang = 'en' as const;
+const title = `${project.name} — ${project.category.en} · Dani Zetta`;
+---
+
+<BaseLayout
+  title={title}
+  description={project.description.en}
+  image={project.image}
+  altEs={projectPath(project.slug, 'es')}
+  altEn={projectPath(project.slug, 'en')}
+>
+  <CaseStudy project={project} lang={lang} />
+</BaseLayout>

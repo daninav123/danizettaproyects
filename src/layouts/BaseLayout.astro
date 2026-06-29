@@ -11,8 +11,12 @@ const c = getContent(lang);
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  /** Override de URLs alternas (para páginas con slug distinto por idioma). */
+  altEs?: string;
+  altEn?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, image, altEs: altEsProp, altEn: altEnProp } = Astro.props;
 
 const pageTitle = title ?? c.meta.title;
 const pageDescription = description ?? c.meta.description;
@@ -20,10 +24,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 
 // Enlaces alternos para SEO (es <-> en)
 const path = Astro.url.pathname.replace(/^\/en/, '') || '/';
-const altEs = new URL(localizedPath(path, 'es'), Astro.site).toString();
-const altEn = new URL(localizedPath(path, 'en'), Astro.site).toString();
+const altEs = new URL(altEsProp ?? localizedPath(path, 'es'), Astro.site).toString();
+const altEn = new URL(altEnProp ?? localizedPath(path, 'en'), Astro.site).toString();
 
-const ogImage = new URL('/og.png', Astro.site).toString();
+const ogImage = new URL(image ?? '/og.png', Astro.site).toString();
 const siteUrl = Astro.site?.toString() ?? 'https://danizetta.studio/';
 
 const jsonLd = {
@@ -55,6 +59,30 @@ const jsonLd = {
       name: 'Dani Zetta',
       inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
       publisher: { '@id': `${siteUrl}#person` },
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${siteUrl}#studio`,
+      name: 'Dani Zetta',
+      url: siteUrl,
+      image: ogImage,
+      email: 'info@danizetta.studio',
+      founder: { '@id': `${siteUrl}#person` },
+      areaServed: ['València', 'España', 'Spain'],
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'València',
+        addressRegion: 'Comunitat Valenciana',
+        addressCountry: 'ES',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: c.services.title,
+        itemListElement: c.services.items.map((it) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: it.title, description: it.desc },
+        })),
+      },
     },
   ],
 };
