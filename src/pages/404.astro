@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — Dani Zetta" description="Página no encontrada.">
+  <section class="nf">
+    <div class="container">
+      <span class="label label--accent">● ERROR 404</span>
+      <h1 class="nf__big">PÁGINA NO<br />ENCONTRADA</h1>
+      <p class="nf__lead">
+        Esta página no existe o se ha movido.<br />
+        <span class="nf__en">This page doesn’t exist or was moved.</span>
+      </p>
+      <a class="btn btn--accent" href="/">← VOLVER AL INICIO / BACK HOME</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    min-height: 82svh;
+    display: flex;
+    align-items: center;
+    padding-top: 58px;
+  }
+  .nf__big {
+    font-size: clamp(3rem, 14vw, 11rem);
+    line-height: 0.85;
+    margin: 1.2rem 0;
+  }
+  .nf__lead {
+    color: var(--muted);
+    margin-bottom: 2rem;
+    max-width: 50ch;
+  }
+  .nf__en { color: var(--dim); }
+</style>

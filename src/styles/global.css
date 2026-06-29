@@ -86,6 +86,13 @@ img, video {
   color: var(--accent-ink);
 }
 
+/* accesibilidad: foco visible por teclado */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
 /* --- Utilidades --- */
 .container {
   width: 100%;
