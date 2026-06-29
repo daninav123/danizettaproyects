@@ -74,7 +74,7 @@ const projects = getProjects();
       if (!tick) {
         tick = true;
         requestAnimationFrame(() => {
-          preview.style.transform = `translate(${x + 24}px, ${y - 110}px)`;
+          preview.style.transform = `translate(${x + 24}px, ${y - 122}px)`;
           tick = false;
         });
       }
@@ -131,22 +131,50 @@ const projects = getProjects();
     .row__link:hover .row__go { color: var(--accent); transform: translate(4px, -4px); }
   }
 
-  /* preview que sigue al cursor (solo desktop) */
+  /* preview que sigue al cursor (solo desktop) — mini ventana de navegador */
   .idxpreview {
     position: fixed;
     top: 0;
     left: 0;
-    width: 340px;
-    height: 220px;
+    width: 380px;
     border: 1px solid var(--a, var(--accent));
+    border-radius: 10px;
+    overflow: hidden;
     pointer-events: none;
     z-index: 90;
     opacity: 0;
     transition: opacity var(--t);
     background: var(--bg-2);
+    box-shadow: 0 30px 60px -18px rgba(0, 0, 0, 0.7);
   }
   .idxpreview.show { opacity: 1; }
-  .idxpreview img { width: 100%; height: 100%; object-fit: cover; }
+  .idxpreview__bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    height: 30px;
+    padding: 0 12px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .idxpreview__bar i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+  .idxpreview__screen {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-2);
+  }
+  .idxpreview__screen img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
 
   /* versión móvil: miniatura + descripción inline */
   .row__m { display: none; }

@@ -35,7 +35,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border-radius: 0 !important;   /* brutalist: sin esquinas redondeadas */
+}
+/* brutalist por defecto: sin redondeos (los componentes pueden optar a ellos) */
+:where(a, button, img, video, figure, section, header, footer, ul, ol, li, input, .btn) {
+  border-radius: 0;
 }
 
 html {
