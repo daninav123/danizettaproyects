@@ -56,7 +56,7 @@ export const content = {
       title: 'Visuales',
       subtitle:
         'Visuales en directo, motion graphics y contenido audiovisual para eventos, escenarios y marcas. Una selección en constante evolución.',
-      note: 'Piezas propias: branding en movimiento, intros de boda, fondos y experimentos con IA.',
+      note: 'Colección 3D Y2K: iconos de los 2000 modelados y animados, parte de mi trabajo de motion para escenarios y eventos.',
     },
     services: {
       eyebrow: 'Servicios',
@@ -164,7 +164,7 @@ export const content = {
       title: 'Visuals',
       subtitle:
         'Live visuals, motion graphics and audiovisual content for events, stages and brands. An ever-evolving selection.',
-      note: 'My own pieces: motion branding, wedding intros, backgrounds and AI experiments.',
+      note: 'A 3D Y2K collection: iconic 2000s gadgets modelled and animated — part of my motion work for stages and events.',
     },
     services: {
       eyebrow: 'Services',
