@@ -5,71 +5,55 @@ import { getLangFromUrl } from '../../i18n/config';
 const lang = getLangFromUrl(Astro.url);
 const c = getContent(lang);
 
-// Piezas propias (clips web optimizados en /public/visuals).
-// area = celda en el bento (ver grid-template-areas más abajo).
 const items = [
-  { slug: 'resona-neon',   area: 'a', accent: '#6fb1a6', kind: { es: 'Branding · Logo', en: 'Branding · Logo' }, title: { es: 'ReSona — Neón',      en: 'ReSona — Neon' } },
-  { slug: 'nuri-santi',    area: 'b', accent: '#cda35c', kind: { es: 'Intro · Boda',    en: 'Intro · Wedding' }, title: { es: 'Nuri & Santi',      en: 'Nuri & Santi' } },
-  { slug: 'save-the-date', area: 'c', accent: '#a98fe2', kind: { es: 'IA · FLUX',       en: 'AI · FLUX' },       title: { es: 'Save the Date · IA', en: 'Save the Date · AI' } },
-  { slug: 'barrido-oro',   area: 'd', accent: '#cda35c', kind: { es: 'Fondo · Loop',    en: 'Background · Loop' }, title: { es: 'Barrido de oro',   en: 'Gold Sweep' } },
-  { slug: 'nubes-oro',     area: 'e', accent: '#e0b15e', kind: { es: 'Fondo · Loop',    en: 'Background · Loop' }, title: { es: 'Nubes de oro',     en: 'Gold Clouds' } },
-  { slug: 'fatima-ape',    area: 'f', accent: '#c9b07f', kind: { es: 'Intro · Boda',    en: 'Intro · Wedding' }, title: { es: 'Fátima & Ape',     en: 'Fátima & Ape' } },
+  { slug: 'resona-neon',   area: 'a', kind: { es: 'Branding · Logo', en: 'Branding · Logo' }, title: { es: 'ReSona — Neón',      en: 'ReSona — Neon' } },
+  { slug: 'nuri-santi',    area: 'b', kind: { es: 'Intro · Boda',    en: 'Intro · Wedding' }, title: { es: 'Nuri & Santi',      en: 'Nuri & Santi' } },
+  { slug: 'save-the-date', area: 'c', kind: { es: 'IA · FLUX',       en: 'AI · FLUX' },       title: { es: 'Save the Date · IA', en: 'Save the Date · AI' } },
+  { slug: 'barrido-oro',   area: 'd', kind: { es: 'Fondo · Loop',    en: 'Background · Loop' }, title: { es: 'Barrido de oro',   en: 'Gold Sweep' } },
+  { slug: 'nubes-oro',     area: 'e', kind: { es: 'Fondo · Loop',    en: 'Background · Loop' }, title: { es: 'Nubes de oro',     en: 'Gold Clouds' } },
+  { slug: 'fatima-ape',    area: 'f', kind: { es: 'Intro · Boda',    en: 'Intro · Wedding' }, title: { es: 'Fátima & Ape',     en: 'Fátima & Ape' } },
 ];
 ---
 
 <section id="visuals" class="section visuals">
   <div class="container">
-    <header class="visuals__head" data-reveal>
-      <p class="eyebrow">{c.visuals.eyebrow}</p>
-      <h2 class="section-title">{c.visuals.title}</h2>
+    <div class="section-head">
+      <div>
+        <span class="label">[02] {c.visuals.eyebrow}</span>
+        <h2 class="section-title">{c.visuals.title}</h2>
+      </div>
       <p class="section-lead">{c.visuals.subtitle}</p>
-    </header>
+    </div>
 
-    <div class="vgrid" data-reveal data-visuals>
-      {items.map((item) => (
-        <figure
-          class:list={['vtile', `vt-${item.area}`]}
-          style={`--tile-accent:${item.accent}`}
-        >
-          <video
-            class="vtile__video"
-            poster={`/visuals/${item.slug}.jpg`}
-            muted
-            loop
-            playsinline
-            preload="none"
-            aria-label={item.title[lang]}
-          >
+    <div class="vgrid" data-visuals>
+      {items.map((item, i) => (
+        <figure class:list={['vt', `vt-${item.area}`]}>
+          <video class="vt__v" poster={`/visuals/${item.slug}.jpg`} muted loop playsinline preload="none" aria-label={item.title[lang]}>
             <source src={`/visuals/${item.slug}.mp4`} type="video/mp4" />
           </video>
-          <span class="vtile__overlay" aria-hidden="true"></span>
-          <span class="vtile__kind">{item.kind[lang]}</span>
-          <figcaption class="vtile__title">{item.title[lang]}</figcaption>
+          <div class="vt__bar">
+            <span class="vt__n">V{String(i + 1).padStart(2, '0')}</span>
+            <span class="vt__kind">{item.kind[lang]}</span>
+          </div>
+          <figcaption class="vt__title">{item.title[lang]}</figcaption>
         </figure>
       ))}
     </div>
 
-    <p class="visuals__note" data-reveal>{c.visuals.note}</p>
+    <p class="visuals__note">→ {c.visuals.note}</p>
   </div>
 </section>
 
 <script>
-  // Reproduce solo los vídeos visibles (rendimiento + batería).
   const grid = document.querySelector('[data-visuals]');
   if (grid) {
     const vids = Array.from(grid.querySelectorAll<HTMLVideoElement>('video'));
     const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          const v = e.target as HTMLVideoElement;
-          if (e.isIntersecting) {
-            if (v.preload === 'none') v.preload = 'auto';
-            v.play().catch(() => {});
-          } else {
-            v.pause();
-          }
-        });
-      },
+      (entries) => entries.forEach((e) => {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting) { if (v.preload === 'none') v.preload = 'auto'; v.play().catch(() => {}); }
+        else v.pause();
+      }),
       { threshold: 0.25 }
     );
     vids.forEach((v) => io.observe(v));
@@ -77,113 +61,83 @@ const items = [
 </script>
 
 <style>
-  .visuals__head {
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
-  }
   .vgrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, clamp(150px, 19vw, 230px));
-    grid-template-areas:
-      'a b c'
-      'a b d'
-      'e e f';
-    gap: 1rem;
+    grid-template-rows: repeat(3, clamp(150px, 18vw, 220px));
+    grid-template-areas: 'a b c' 'a b d' 'e e f';
+    border: 1px solid var(--line-strong);
   }
-  .vt-a { grid-area: a; }
-  .vt-b { grid-area: b; }
-  .vt-c { grid-area: c; }
-  .vt-d { grid-area: d; }
-  .vt-e { grid-area: e; }
-  .vt-f { grid-area: f; }
+  .vt-a { grid-area: a; } .vt-b { grid-area: b; } .vt-c { grid-area: c; }
+  .vt-d { grid-area: d; } .vt-e { grid-area: e; } .vt-f { grid-area: f; }
 
-  .vtile {
+  .vt {
     position: relative;
     overflow: hidden;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: #0a0a0d;
-    transition: transform 0.5s var(--ease), border-color 0.4s ease, box-shadow 0.4s ease;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: #000;
   }
-  .vtile:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in srgb, var(--tile-accent) 60%, transparent);
-    box-shadow: 0 20px 50px -24px color-mix(in srgb, var(--tile-accent) 70%, transparent);
-  }
-  .vtile__video {
+  .vt__v {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.7s var(--ease);
+    filter: grayscale(0.15);
+    transition: filter var(--t), transform var(--t);
   }
-  .vtile:hover .vtile__video {
-    transform: scale(1.05);
-  }
-  .vtile__overlay {
+  .vt:hover .vt__v { filter: none; transform: scale(1.03); }
+  .vt::after {
+    content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 45%, rgba(8, 8, 10, 0.85));
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.8));
     pointer-events: none;
   }
-  .vtile__kind {
+  .vt__bar {
     position: absolute;
-    top: 1rem;
-    left: 1.15rem;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1;
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #fff;
-    background: rgba(8, 8, 10, 0.5);
-    backdrop-filter: blur(6px);
-    padding: 0.3rem 0.6rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
   }
-  .vtile__title {
+  .vt__n { color: var(--accent); font-weight: 700; }
+  .vt__kind { color: var(--ink); }
+  .vt__title {
     position: absolute;
-    left: 1.15rem;
-    bottom: 1.05rem;
+    left: 0.75rem;
+    bottom: 0.7rem;
     z-index: 1;
     font-family: var(--font-display);
-    font-size: clamp(1.15rem, 1.8vw, 1.5rem);
-    line-height: 1.05;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    letter-spacing: -0.01em;
   }
   .visuals__note {
-    margin-top: 1.5rem;
-    font-size: 0.88rem;
-    color: var(--text-dim);
-    font-style: italic;
+    margin-top: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   @media (max-width: 820px) {
-    .vgrid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: none;
-      grid-auto-rows: clamp(150px, 30vw, 200px);
-      grid-template-areas: none;
-    }
-    .vt-a,
-    .vt-b,
-    .vt-c,
-    .vt-d,
-    .vt-e,
-    .vt-f {
-      grid-area: auto;
-    }
-    .vt-e {
-      grid-column: span 2;
-    }
+    .vgrid { grid-template-columns: repeat(2, 1fr); grid-template-rows: none; grid-auto-rows: clamp(150px, 32vw, 200px); grid-template-areas: none; }
+    .vt-a, .vt-b, .vt-c, .vt-d, .vt-e, .vt-f { grid-area: auto; }
+    .vt-e { grid-column: span 2; }
   }
   @media (max-width: 520px) {
-    .vgrid {
-      grid-template-columns: 1fr;
-    }
-    .vt-e {
-      grid-column: auto;
-    }
+    .vgrid { grid-template-columns: 1fr; }
+    .vt-e { grid-column: auto; }
   }
 </style>

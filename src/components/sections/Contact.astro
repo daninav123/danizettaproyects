@@ -7,69 +7,46 @@ const c = getContent(lang);
 ---
 
 <section id="contact" class="section contact">
-  <div class="container contact__inner" data-reveal>
-    <div class="contact__glow" aria-hidden="true"></div>
-    <p class="eyebrow">{c.contact.eyebrow}</p>
+  <div class="container">
+    <div class="section-head">
+      <span class="label">[04] {c.contact.eyebrow}</span>
+    </div>
+
     <h2 class="contact__title">{c.contact.title}</h2>
     <p class="contact__lead">{c.contact.subtitle}</p>
 
-    <div class="contact__cta">
-      <a class="btn" href={`mailto:${c.contact.email}`}>{c.contact.cta}</a>
-      <a class="contact__email" href={`mailto:${c.contact.email}`}>{c.contact.email}</a>
-    </div>
+    <a class="contact__mail" href={`mailto:${c.contact.email}`}>
+      <span>{c.contact.email}</span>
+      <span class="contact__arrow" aria-hidden="true">↗</span>
+    </a>
   </div>
 </section>
 
 <style>
-  .contact__inner {
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
-    background: linear-gradient(180deg, var(--surface), var(--bg-soft));
-  }
-  .contact__glow {
-    position: absolute;
-    inset: auto auto -40% 50%;
-    transform: translateX(-50%);
-    width: 40rem;
-    height: 30rem;
-    max-width: 90%;
-    background: radial-gradient(circle, rgba(205, 163, 92, 0.22), transparent 60%);
-    filter: blur(20px);
-    pointer-events: none;
-  }
   .contact__title {
-    position: relative;
-    font-size: clamp(2.2rem, 6vw, 4rem);
-    margin-top: 1rem;
+    font-size: clamp(2.6rem, 9vw, 7rem);
+    line-height: 0.95;
+    max-width: 16ch;
   }
   .contact__lead {
-    position: relative;
-    max-width: 42ch;
-    margin: 1.25rem auto 0;
-    color: var(--text-muted);
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    margin-top: 1.25rem;
+    max-width: 46ch;
+    color: var(--muted);
   }
-  .contact__cta {
-    position: relative;
+  .contact__mail {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
-    margin-top: 2.5rem;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    padding: clamp(1.1rem, 3vw, 1.8rem) clamp(1.1rem, 3vw, 1.8rem);
+    border: 1px solid var(--ink);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    letter-spacing: -0.01em;
+    transition: background-color var(--t), color var(--t);
   }
-  .contact__email {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    letter-spacing: 0.02em;
-    border-bottom: 1px solid transparent;
-    transition: color 0.25s ease, border-color 0.25s ease;
-  }
-  .contact__email:hover {
-    color: var(--text);
-    border-bottom-color: var(--accent);
-  }
+  .contact__mail:hover { background: var(--accent); color: var(--accent-ink); }
+  .contact__arrow { font-size: 1.2em; }
 </style>

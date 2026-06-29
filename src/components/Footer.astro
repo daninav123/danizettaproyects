@@ -4,123 +4,93 @@ import { getLangFromUrl } from '../i18n/config';
 
 const lang = getLangFromUrl(Astro.url);
 const c = getContent(lang);
-const year = 2026; // actualiza cada año si lo deseas
+const year = 2026;
 
 const socials = [
-  { label: 'Email', href: `mailto:${c.contact.email}` },
-  { label: 'Instagram', href: 'https://instagram.com/' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/' },
+  { label: 'Email ↗', href: `mailto:${c.contact.email}` },
+  { label: 'Instagram ↗', href: 'https://instagram.com/' },
+  { label: 'LinkedIn ↗', href: 'https://linkedin.com/' },
 ];
 ---
 
-<footer class="site-footer">
-  <div class="container grid">
-    <div class="col brand-col">
-      <a class="brand" href="/">
-        <span class="brand__mark">DZ</span>
-        <span>Dani Zetta</span>
-      </a>
-      <p class="tagline">{c.footer.tagline}</p>
-    </div>
+<footer class="ft">
+  <div class="ft__big container">DANI ZETTA<sup>®</sup></div>
 
-    <nav class="col" aria-label={c.nav.work}>
-      <h3 class="col__title">{c.nav.work}</h3>
+  <div class="ft__grid container">
+    <div class="ft__col">
+      <span class="ft__h">{c.footer.tagline}</span>
+    </div>
+    <nav class="ft__col" aria-label={c.nav.work}>
+      <span class="ft__h">{c.nav.work}</span>
       <a href="#work">{c.nav.work}</a>
       <a href="#visuals">{c.nav.visuals}</a>
       <a href="#about">{c.nav.about}</a>
     </nav>
-
-    <nav class="col" aria-label="Social">
-      <h3 class="col__title">{c.nav.contact}</h3>
+    <nav class="ft__col" aria-label="Social">
+      <span class="ft__h">{c.nav.contact}</span>
       {socials.map((s) => (
-        <a href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
-          {s.label}
-        </a>
+        <a href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noopener">{s.label}</a>
       ))}
     </nav>
   </div>
 
-  <div class="container bottom">
-    <span>© {year} Dani Zetta. {c.footer.rights}</span>
-    <span class="built">{c.footer.built}</span>
+  <div class="ft__bottom container">
+    <span>© {year} DANI ZETTA — {c.footer.rights}</span>
+    <span>{c.footer.built}</span>
   </div>
 </footer>
 
 <style>
-  .site-footer {
-    border-top: 1px solid var(--border);
-    padding-block: clamp(3rem, 6vw, 5rem) 2rem;
-    background: var(--bg-soft);
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    gap: 2.5rem;
-    padding-bottom: 3rem;
-  }
-  .col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .col__title {
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 0.35rem;
-  }
-  .col a {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    width: fit-content;
-    transition: color 0.25s ease;
-  }
-  .col a:hover {
-    color: var(--accent-soft);
-  }
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    font-weight: 600;
-    font-size: 1.1rem;
-  }
-  .brand__mark {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-soft));
-    color: var(--accent-contrast);
+  .ft { border-top: 1px solid var(--line-strong); }
+  .ft__big {
     font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: clamp(3rem, 16vw, 13rem);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 2vw, 1.5rem);
   }
-  .tagline {
-    color: var(--text-muted);
-    max-width: 32ch;
+  .ft__big sup { color: var(--accent); font-size: 0.4em; vertical-align: super; }
+  .ft__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1.5rem;
+    padding-block: 2rem;
+    border-top: 1px solid var(--line);
   }
-  .bottom {
+  .ft__col { display: flex; flex-direction: column; gap: 0.55rem; }
+  .ft__h {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    margin-bottom: 0.3rem;
+  }
+  .ft__col a {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+    width: fit-content;
+    transition: color var(--t);
+  }
+  .ft__col a:hover { color: var(--accent); }
+  .ft__bottom {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     gap: 1rem;
-    padding-top: 1.75rem;
-    border-top: 1px solid var(--border);
-    color: var(--text-dim);
-    font-size: 0.85rem;
+    flex-wrap: wrap;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--dim);
   }
-  @media (max-width: 720px) {
-    .grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .brand-col {
-      grid-column: 1 / -1;
-    }
-    .bottom {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  @media (max-width: 700px) {
+    .ft__grid { grid-template-columns: 1fr 1fr; }
+    .ft__col:first-child { grid-column: 1 / -1; }
   }
 </style>

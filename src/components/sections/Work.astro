@@ -1,5 +1,4 @@
 ---
-import ProjectCard from '../ProjectCard.astro';
 import { getProjects } from '../../data/projects';
 import { getContent } from '../../i18n/content';
 import { getLangFromUrl } from '../../i18n/config';
@@ -11,27 +10,159 @@ const projects = getProjects();
 
 <section id="work" class="section work">
   <div class="container">
-    <header class="work__head" data-reveal>
-      <p class="eyebrow">{c.work.eyebrow}</p>
-      <h2 class="section-title">{c.work.title}</h2>
+    <div class="section-head">
+      <div>
+        <span class="label">[01] {c.work.eyebrow}</span>
+        <h2 class="section-title">{c.work.title}</h2>
+      </div>
       <p class="section-lead">{c.work.subtitle}</p>
-    </header>
-
-    <div class="work__list">
-      {projects.map((project, i) => (
-        <ProjectCard project={project} lang={lang} index={i} />
-      ))}
     </div>
+
+    <ol class="idxlist" data-idxlist>
+      {projects.map((p, i) => (
+        <li class="row">
+          <a
+            class="row__link"
+            href={p.url}
+            target="_blank"
+            rel="noopener"
+            data-img={p.image}
+            data-accent={p.accent}
+            aria-label={`${c.work.visit}: ${p.name}`}
+          >
+            <span class="row__n">{String(i + 1).padStart(2, '0')}</span>
+            <span class="row__name">{p.name}</span>
+            <span class="row__cat">{p.category[lang]}</span>
+            <span class="row__year">{p.year}</span>
+            <span class="row__go" aria-hidden="true">↗</span>
+          </a>
+          <div class="row__m">
+            {p.image && <img src={p.image} alt={p.name} loading="lazy" />}
+            <p>{p.description[lang]}</p>
+            <div class="row__tags">{p.tags.map((t) => <span>{t}</span>)}</div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <div class="idxpreview" data-preview aria-hidden="true">
+    <img data-preview-img alt="" />
   </div>
 </section>
 
-<style>
-  .work__head {
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+<script>
+  const list = document.querySelector('[data-idxlist]');
+  const preview = document.querySelector('[data-preview]') as HTMLElement | null;
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (list && preview && canHover) {
+    const pimg = preview.querySelector('[data-preview-img]') as HTMLImageElement;
+    const rows = list.querySelectorAll<HTMLElement>('[data-img]');
+    rows.forEach((row) => {
+      row.addEventListener('mouseenter', () => {
+        const src = row.dataset.img;
+        if (src) pimg.src = src;
+        preview.style.setProperty('--a', row.dataset.accent || '#d4ff32');
+        preview.classList.add('show');
+      });
+      row.addEventListener('mouseleave', () => preview.classList.remove('show'));
+    });
+    let x = 0, y = 0, tick = false;
+    window.addEventListener('mousemove', (e) => {
+      x = e.clientX; y = e.clientY;
+      if (!tick) {
+        tick = true;
+        requestAnimationFrame(() => {
+          preview.style.transform = `translate(${x + 24}px, ${y - 110}px)`;
+          tick = false;
+        });
+      }
+    });
   }
-  .work__list {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(1.5rem, 3vw, 2.5rem);
+</script>
+
+<style>
+  .idxlist {
+    list-style: none;
+    border-top: 1px solid var(--line-strong);
+  }
+  .row { border-bottom: 1px solid var(--line); }
+  .row__link {
+    display: grid;
+    grid-template-columns: 4ch minmax(0, 1fr) auto auto 3ch;
+    align-items: center;
+    gap: 1.5rem;
+    padding: clamp(1rem, 2.2vw, 1.6rem) 0;
+    transition: padding-left var(--t), color var(--t);
+  }
+  .row__n {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: 0.85rem;
+  }
+  .row__name {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4.5vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: color var(--t);
+  }
+  .row__cat,
+  .row__year {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .row__go {
+    font-size: 1.2rem;
+    color: var(--muted);
+    transition: transform var(--t), color var(--t);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .row__link:hover { padding-left: 1.2rem; }
+    .row__link:hover .row__name { color: var(--accent); }
+    .row__link:hover .row__go { color: var(--accent); transform: translate(4px, -4px); }
+  }
+
+  /* preview que sigue al cursor (solo desktop) */
+  .idxpreview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 340px;
+    height: 220px;
+    border: 1px solid var(--a, var(--accent));
+    pointer-events: none;
+    z-index: 90;
+    opacity: 0;
+    transition: opacity var(--t);
+    background: var(--bg-2);
+  }
+  .idxpreview.show { opacity: 1; }
+  .idxpreview img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* versión móvil: miniatura + descripción inline */
+  .row__m { display: none; }
+  @media (hover: none), (max-width: 760px) {
+    .idxpreview { display: none; }
+    .row__link { grid-template-columns: 3ch 1fr auto; }
+    .row__cat { display: none; }
+    .row__m {
+      display: block;
+      padding-bottom: 1.4rem;
+    }
+    .row__m img { width: 100%; border: 1px solid var(--line); margin-bottom: 0.8rem; }
+    .row__m p { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.7rem; }
+    .row__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .row__tags span {
+      font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase;
+      border: 1px solid var(--line); padding: 0.25rem 0.5rem; color: var(--muted);
+    }
   }
 </style>

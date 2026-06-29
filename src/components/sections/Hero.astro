@@ -4,105 +4,105 @@ import { getLangFromUrl } from '../../i18n/config';
 
 const lang = getLangFromUrl(Astro.url);
 const c = getContent(lang);
+const roles = lang === 'es'
+  ? ['DISEÑO', 'DESARROLLO', 'VISUALES', 'SONIDO']
+  : ['DESIGN', 'DEVELOPMENT', 'VISUALS', 'SOUND'];
 ---
 
 <section class="hero">
-  <div class="hero__glow" aria-hidden="true"></div>
-  <div class="container hero__inner">
-    <p class="eyebrow" data-reveal>{c.hero.eyebrow}</p>
-    <h1 class="hero__title" data-reveal>{c.hero.title}</h1>
-    <p class="hero__subtitle" data-reveal>{c.hero.subtitle}</p>
+  <div class="container hero__top">
+    <span class="label">{lang === 'es' ? 'ESTUDIO AUDIOVISUAL' : 'AUDIOVISUAL STUDIO'} — VALÈNCIA, ES</span>
+    <span class="label label--accent">● {lang === 'es' ? 'DISPONIBLE PARA PROYECTOS' : 'AVAILABLE FOR WORK'}</span>
+  </div>
 
-    <div class="hero__cta" data-reveal>
-      <a class="btn" href="#work">{c.hero.ctaWork}</a>
-      <a class="btn btn--ghost" href="#contact">{c.hero.ctaContact}</a>
+  <div class="container hero__mid">
+    <h1 class="hero__title">Dani<br />Zetta<span class="hero__cursor blink">_</span></h1>
+
+    <div class="hero__meta">
+      <ul class="hero__roles">
+        {roles.map((r, i) => <li><span class="idx">0{i + 1}</span> {r}</li>)}
+      </ul>
     </div>
   </div>
 
-  <a class="hero__scroll" href="#work" aria-label={c.hero.scroll}>
-    <span>{c.hero.scroll}</span>
-    <span class="hero__scroll-line" aria-hidden="true"></span>
-  </a>
+  <div class="container hero__bottom">
+    <p class="hero__lead">{c.hero.subtitle}</p>
+    <div class="hero__cta">
+      <a class="btn btn--accent" href="#work">{c.hero.ctaWork} →</a>
+      <a class="btn" href="#contact">{c.hero.ctaContact}</a>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>SELECTED WORK</span><span><b>↗</b></span><span>2024 — 2026</span><span><b>↗</b></span><span>DISEÑO · DESARROLLO · VISUALES · SONIDO</span><span><b>↗</b></span><span>VALÈNCIA → WORLDWIDE</span><span><b>↗</b></span>
+      <span>SELECTED WORK</span><span><b>↗</b></span><span>2024 — 2026</span><span><b>↗</b></span><span>DISEÑO · DESARROLLO · VISUALES · SONIDO</span><span><b>↗</b></span><span>VALÈNCIA → WORLDWIDE</span><span><b>↗</b></span>
+    </div>
+  </div>
 </section>
 
 <style>
   .hero {
-    position: relative;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    padding-block: 8rem 4rem;
-    overflow: hidden;
-  }
-  .hero__glow {
-    position: absolute;
-    top: -20%;
-    right: -10%;
-    width: 70vw;
-    height: 70vw;
-    max-width: 900px;
-    max-height: 900px;
-    background: radial-gradient(circle, rgba(205, 163, 92, 0.18), transparent 62%);
-    filter: blur(20px);
-    pointer-events: none;
-    animation: float 14s ease-in-out infinite alternate;
-  }
-  @keyframes float {
-    to {
-      transform: translate(-4%, 5%) scale(1.08);
-    }
-  }
-  .hero__inner {
-    position: relative;
-    max-width: 60rem;
-  }
-  .hero__title {
-    font-size: clamp(2.75rem, 7.5vw, 6rem);
-    margin-top: 1.5rem;
-    line-height: 1.0;
-  }
-  .hero__subtitle {
-    margin-top: 1.75rem;
-    max-width: 48ch;
-    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-    color: var(--text-muted);
-  }
-  .hero__cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.9rem;
-    margin-top: 2.5rem;
-  }
-  .hero__title :global(em) {
-    font-style: italic;
-    color: var(--accent-soft);
-  }
-  .hero__scroll {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    padding-top: 58px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-dim);
+    min-height: 100svh;
   }
-  .hero__scroll-line {
-    width: 1px;
-    height: 44px;
-    background: linear-gradient(var(--accent), transparent);
-    animation: drop 2s ease-in-out infinite;
-    transform-origin: top;
+  .hero__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
   }
-  @keyframes drop {
-    0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
-    50% { transform: scaleY(1); opacity: 1; }
+  .hero__mid {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: clamp(1.5rem, 4vw, 3rem);
   }
-  @media (max-width: 640px) {
-    .hero__scroll { display: none; }
+  .hero__title {
+    font-size: clamp(4.5rem, 21vw, 17rem);
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    margin-left: -0.04em;
+  }
+  .hero__cursor { color: var(--accent); }
+  .hero__roles {
+    list-style: none;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .hero__roles li {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+  }
+  .hero__roles .idx { margin-right: 0.4ch; }
+  .hero__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .hero__lead {
+    max-width: 48ch;
+    color: var(--muted);
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+  }
+  .hero__cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  @media (max-width: 760px) {
+    .hero__mid { align-items: flex-start; flex-direction: column; }
+    .hero__roles { text-align: left; flex-flow: row wrap; gap: 0.6rem 1.2rem; }
+    .hero__title { font-size: clamp(4rem, 24vw, 9rem); }
   }
 </style>
